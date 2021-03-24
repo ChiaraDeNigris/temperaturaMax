@@ -10,22 +10,22 @@ var cityElems = Array.from(document.getElementsByClassName("citta"));
 for (let elem of cityElems) {
   elem.onclick = () => display(elem.innerHTML);
 }
-calcoloMedia.onclick = () => media();
+calcoloMassima.onclick = () => massima();
 
 function doCity(city, callback) {
   let promise = fetch(URL + city)
     .then(response => response.json(), error => alert(error))
-    .then(data => {callback(data);console.log(data)});
+    .then(data => callback(data));
   return promise;
 }
 async function display(city) {
-  let t = await doCity(city, data => data.main.temp);
+  let t = await doCity(city, data => data.main.temp_max);
   document.getElementById("risposta").innerHTML =
     "A " + city + " ci sono " + t + " gradi";
 }
-async function media() {
+async function massima() {
   let temps = await Promise.all(
-    cityElems.map(cityElem => doCity(cityElem.innerHTML, data => data.main.temp))
+    cityElems.map(cityElem => doCity(cityElem.innerHTML, data => data.main.temp_max))
   );
   let somma = temps.reduce((somma, temp) => temp + somma);
   document.getElementById("media").innerText = somma / cityElems.length;

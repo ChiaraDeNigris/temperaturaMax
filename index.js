@@ -15,7 +15,7 @@ calcoloMedia.onclick = () => media();
 function doCity(city, callback) {
   let promise = fetch(URL + city)
     .then(response => response.json(), error => alert(error))
-    .then(data => callback(data));
+    .then(data => {callback(data);console.log(data)});
   return promise;
 }
 async function display(city) {
